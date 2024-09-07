@@ -19,7 +19,7 @@ function convertText(text) {
       return char === lowerChar ? engToHebMap.get(lowerChar) : engToHebMap.get(lowerChar).toUpperCase();
     } else if (hebToEngMap.has(char)) {
       const engChar = hebToEngMap.get(char);
-      return char === char.toUpperCase() ? engChar.toUpperCase() : engChar;
+      return char === char.toUpperCase() ? engChar.toLowerCase() : engChar;
     } else {
       return char;
     }
@@ -27,20 +27,37 @@ function convertText(text) {
 }
 
 // Function to handle input events
-function handleInput(event) {
+// Function to handle selection conversion
+function handleSelectionConversion(event) {
   if (!isEnabled) return;
-  const input = event.target;
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  input.value = convertText(input.value);
-  input.setSelectionRange(start, end);
+  
+  const activeElement = document.activeElement;
+  if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+    const start = activeElement.selectionStart;
+    const end = activeElement.selectionEnd;
+    
+    if (start !== end) {
+      const selectedText = activeElement.value.substring(start, end);
+      const convertedText = convertText(selectedText);
+      
+      const newValue = activeElement.value.substring(0, start) + convertedText + activeElement.value.substring(end);
+      activeElement.value = newValue;
+      
+      // Maintain the selection
+      activeElement.setSelectionRange(start, start + convertedText.length);
+      
+      // Prevent default behavior for certain key combinations
+      if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault();
+      }
+    }
+  }
 }
-
 // Add event listeners to all text inputs and textareas
 function addListeners() {
   const inputs = document.querySelectorAll('input[type="text"], textarea');
   inputs.forEach(input => {
-    input.addEventListener('input', handleInput);
+    input.addEventListener('keydown', handleSelectionConversion);
   });
 }
 
