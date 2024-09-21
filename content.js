@@ -53,11 +53,46 @@ function handleSelectionConversion(event) {
     }
   }
 }
+
+// Function to handle selection conversion for contenteditable elements
+function handleContentEditableSelection(event) {
+  if (!isEnabled) return;
+  
+  const selection = window.getSelection();
+  const range = selection.getRangeAt(0);
+  
+  if (!range.collapsed) {
+    const selectedText = range.toString();
+    const convertedText = convertText(selectedText);
+    
+    const newNode = document.createTextNode(convertedText);
+    range.deleteContents();
+    range.insertNode(newNode);
+    
+    // Adjust the selection to encompass the new text
+    range.setStartBefore(newNode);
+    range.setEndAfter(newNode);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    
+    // Prevent default behavior for certain key combinations
+    if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+    }
+  }
+}
+
 // Add event listeners to all text inputs and textareas
 function addListeners() {
   const inputs = document.querySelectorAll('input[type="text"], textarea');
   inputs.forEach(input => {
     input.addEventListener('keydown', handleSelectionConversion);
+  });
+
+  // For Gmail's compose area and other contenteditable elements
+  const contentEditables = document.querySelectorAll('div[contenteditable="true"]');
+  contentEditables.forEach(element => {
+    element.addEventListener('keydown', handleContentEditableSelection);
   });
 }
 
