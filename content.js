@@ -15,7 +15,7 @@ function convertText(text) {
 
   return text.split('').map(char => {
     const lowerChar = char.toLowerCase();
-    if (engToHebMap.has(lowerChar)) {
+    if (engToHebMap.has(lowerChar)) { // if the character exists in the map then return the corresponding hebrew character
       return char === lowerChar ? engToHebMap.get(lowerChar) : engToHebMap.get(lowerChar).toUpperCase();
     } else if (hebToEngMap.has(char)) {
       const engChar = hebToEngMap.get(char);
