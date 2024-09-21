@@ -5,7 +5,8 @@
   "description": "No more damn capslock mistakes!",
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "host_permissions": [
     "https://mail.google.com/*",
