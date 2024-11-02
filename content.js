@@ -47,8 +47,8 @@ function handleSelectionConversion(event) {
       activeElement.setSelectionRange(start, start + convertedText.length);
       
       // Prevent default behavior for certain key combinations
-      if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
-        event.preventDefault();
+      // if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+      //   event.preventDefault();
       }
     }
   }
@@ -76,9 +76,9 @@ function handleContentEditableSelection(event) {
     selection.addRange(range);
     
     // Prevent default behavior for certain key combinations
-    if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
-      event.preventDefault();
-    }
+    // if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+    //   event.preventDefault();
+    // }
   }
 }
 
