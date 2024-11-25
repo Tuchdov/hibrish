@@ -32,7 +32,7 @@ function handleSelectionConversion(event) {
   if (!isEnabled) return;
   
   const activeElement = document.activeElement;
-  if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
+  if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA'||activeElement.tagName === 'P' ) {
     const start = activeElement.selectionStart;
     const end = activeElement.selectionEnd;
     
@@ -52,7 +52,7 @@ function handleSelectionConversion(event) {
       }
     }
   }
-}
+
 
 // Function to handle selection conversion for contenteditable elements
 function handleContentEditableSelection(event) {
@@ -84,7 +84,7 @@ function handleContentEditableSelection(event) {
 
 // Add event listeners to all text inputs and textareas
 function addListeners() {
-  const inputs = document.querySelectorAll('input[type="text"], textarea');
+  const inputs = document.querySelectorAll('input[type="text"], textarea, p');
   inputs.forEach(input => {
     input.addEventListener('keydown', handleSelectionConversion);
   });
